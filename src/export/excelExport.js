@@ -2,6 +2,14 @@ import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 import { getStatusInfo, formatDateShort } from '../utils/helpers'
 
+const EXCEL_CELL_LIMIT = 32767
+
+const safe = (value) => {
+  if (value == null) return ''
+  const str = String(value)
+  return str.length > EXCEL_CELL_LIMIT ? str.slice(0, EXCEL_CELL_LIMIT - 3) + '...' : str
+}
+
 export const exportToExcel = (apis, filename = 'API_Documentation') => {
   const wb = XLSX.utils.book_new()
 
@@ -16,14 +24,14 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
     const info = getStatusInfo(api.statusCode)
     return [
       i + 1,
-      api.name || '',
-      api.method || '',
-      api.url || '',
+      safe(api.name),
+      safe(api.method),
+      safe(api.url),
       api.statusCode || '',
-      info.label,
-      info.result,
+      safe(info.label),
+      safe(info.result),
       api.responseTime != null ? api.responseTime : '',
-      formatDateShort(api.createdAt),
+      safe(formatDateShort(api.createdAt)),
     ]
   })
 
@@ -44,15 +52,15 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
     const info = getStatusInfo(api.statusCode)
     return [
       i + 1,
-      api.name || '',
-      api.method || '',
-      api.url || '',
+      safe(api.name),
+      safe(api.method),
+      safe(api.url),
       api.statusCode || '',
-      info.result,
+      safe(info.result),
       api.responseTime != null ? `${api.responseTime}ms` : '',
-      api.description || '',
-      api.responseBody || '',
-      formatDateShort(api.createdAt),
+      safe(api.description),
+      safe(api.responseBody),
+      safe(formatDateShort(api.createdAt)),
     ]
   })
 
