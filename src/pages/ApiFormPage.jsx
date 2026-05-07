@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { ArrowLeft, Save, RotateCcw, CheckCircle2, XCircle } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import JsonEditor from '../components/JsonEditor'
@@ -11,14 +11,10 @@ const EMPTY = {
   method: 'GET',
   url: '',
   statusCode: 200,
-  requestHeaders: '',
-  requestBody: '',
   responseBody: '',
   description: '',
   responseTime: '',
 }
-
-const SHOW_BODY = ['POST', 'PUT', 'PATCH']
 
 export default function ApiFormPage() {
   const { navigate, editingApi, addApi, updateApi } = useApp()
@@ -43,7 +39,6 @@ export default function ApiFormPage() {
 
   const statusInfo = getStatusInfo(form.statusCode)
   const pass = isPass(form.statusCode)
-  const showBody = SHOW_BODY.includes(form.method)
 
   const validate = () => {
     const errs = {}
@@ -203,32 +198,6 @@ export default function ApiFormPage() {
 
         {/* JSON Editors Card */}
         <div className="card p-6 space-y-6">
-          <h3 className="text-slate-300 font-semibold text-sm uppercase tracking-wide border-b border-slate-700/50 pb-3">
-            Request & Response Data
-          </h3>
-
-          <JsonEditor
-            label="Request Headers"
-            value={form.requestHeaders}
-            onChange={(v) => set('requestHeaders', v)}
-            placeholder={'{\n  "Authorization": "Bearer ...",\n  "Content-Type": "application/json"\n}'}
-          />
-
-          {showBody && (
-            <JsonEditor
-              label="Request Body"
-              value={form.requestBody}
-              onChange={(v) => set('requestBody', v)}
-              placeholder={'{\n  "key": "value"\n}'}
-            />
-          )}
-          {!showBody && (
-            <div className="text-slate-600 text-xs flex items-center gap-2 py-2">
-              <span className="w-full border-t border-dashed border-slate-700/50" />
-              <span className="shrink-0">Request body hidden for {form.method}</span>
-              <span className="w-full border-t border-dashed border-slate-700/50" />
-            </div>
-          )}
 
           <JsonEditor
             label="Response Body"

@@ -97,8 +97,7 @@ When you select a status code, the **Auto Result** badge changes instantly:
 
 **4. Paste JSON data**
 
-Copy your JSON from Postman and paste it into the three JSON editors:
-- **Request Headers** — the headers you sent
+Copy your JSON from Postman and paste it into the two JSON editors:
 - **Request Body** — the body you sent (hidden for GET)
 - **Response Body** — the response Postman received
 
@@ -363,9 +362,8 @@ Here is a typical workflow from Postman test to finished documentation:
 5. Paste the **URL** from Postman
 6. Select the **Status Code** returned (e.g. `201`)
 7. Enter the **Response Time** from Postman (e.g. `312`)
-8. Paste the **Request Headers** JSON from Postman → click **Beautify**
-9. Paste the **Request Body** JSON → click **Beautify**
-10. Paste the **Response Body** JSON → click **Beautify**
+8. Paste the **Request Body** JSON → click **Beautify**
+9. Paste the **Response Body** JSON → click **Beautify**
 11. Add any **Description / Notes** about this endpoint
 12. Click **Save API**
 13. Repeat for all your endpoints

@@ -35,7 +35,7 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
   // ── Sheet 2: Full Details ─────────────────────────────────────────
   const detailHeaders = [
     'No', 'API Name', 'Method', 'URL', 'Status Code', 'Result',
-    'Response Time', 'Description', 'Request Headers', 'Request Body', 'Response Body', 'Created Date',
+    'Response Time', 'Description', 'Response Body', 'Created Date',
   ]
   const detailRows = apis.map((api, i) => {
     const info = getStatusInfo(api.statusCode)
@@ -48,8 +48,6 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
       info.result,
       api.responseTime != null ? `${api.responseTime}ms` : '',
       api.description || '',
-      api.requestHeaders || '',
-      api.requestBody || '',
       api.responseBody || '',
       formatDateShort(api.createdAt),
     ]
@@ -59,7 +57,7 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
   ws2['!cols'] = [
     { wch: 5 }, { wch: 25 }, { wch: 10 }, { wch: 40 },
     { wch: 13 }, { wch: 10 }, { wch: 15 }, { wch: 30 },
-    { wch: 30 }, { wch: 30 }, { wch: 30 }, { wch: 15 },
+    { wch: 30 }, { wch: 15 },
   ]
   ws2['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft' }
   XLSX.utils.book_append_sheet(wb, ws2, 'Full Details')
