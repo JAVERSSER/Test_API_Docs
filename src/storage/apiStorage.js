@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { STORAGE_KEY } from '../utils/constants'
 
 export const loadApis = () => {
@@ -16,15 +17,8 @@ export const saveApis = (apis) => {
 }
 
 export const exportJson = (apis) => {
-  const blob = new Blob([JSON.stringify(apis, null, 2)], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `api_docs_${new Date().toISOString().split('T')[0]}.json`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
+  const blob = new Blob([JSON.stringify(apis, null, 2)], { type: 'application/json;charset=utf-8' })
+  saveAs(blob, `api_docs_${new Date().toISOString().split('T')[0]}.json`)
 }
 
 export const parseImportJson = (text) => {

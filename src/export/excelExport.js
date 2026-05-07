@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
 import { getStatusInfo, formatDateShort } from '../utils/helpers'
 
 export const exportToExcel = (apis, filename = 'API_Documentation') => {
@@ -64,5 +65,9 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
   ws2['!freeze'] = { xSplit: 0, ySplit: 1, topLeftCell: 'A2', activePane: 'bottomLeft' }
   XLSX.utils.book_append_sheet(wb, ws2, 'Full Details')
 
-  XLSX.writeFile(wb, `${filename}_${new Date().toISOString().split('T')[0]}.xlsx`)
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
+  saveAs(
+    new Blob([wbout], { type: 'application/octet-stream' }),
+    `${filename}_${new Date().toISOString().split('T')[0]}.xlsx`
+  )
 }
