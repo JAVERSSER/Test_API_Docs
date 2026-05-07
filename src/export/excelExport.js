@@ -4,12 +4,14 @@ import { getStatusInfo, formatDateShort } from '../utils/helpers'
 export const exportToExcel = (apis, filename = 'API_Documentation') => {
   const wb = XLSX.utils.book_new()
 
+  const sorted = [...apis].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+
   // ── Sheet 1: Summary ───────────────────────────────────────────────
   const summaryHeaders = [
     'No', 'API Name', 'Method', 'URL',
     'Status Code', 'Status', 'Result', 'Response Time (ms)', 'Created Date',
   ]
-  const summaryRows = apis.map((api, i) => {
+  const summaryRows = sorted.map((api, i) => {
     const info = getStatusInfo(api.statusCode)
     return [
       i + 1,
@@ -37,7 +39,7 @@ export const exportToExcel = (apis, filename = 'API_Documentation') => {
     'No', 'API Name', 'Method', 'URL', 'Status Code', 'Result',
     'Response Time', 'Description', 'Response Body', 'Created Date',
   ]
-  const detailRows = apis.map((api, i) => {
+  const detailRows = sorted.map((api, i) => {
     const info = getStatusInfo(api.statusCode)
     return [
       i + 1,
